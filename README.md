@@ -1,4 +1,4 @@
-# SI Challenge - restaurant reservation system prototype
+# SI Challenge - restaurant reservation system
 ## Actors
 * Customer
   - name
