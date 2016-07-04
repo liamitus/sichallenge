@@ -29,10 +29,12 @@
 3. Staff can check reservation and see table number when party arrives.
 4. Staff marks table as occupied.
 5. Party leaves and stadd marks table as free.
+
 ###### Party size adjustment
 1. First two steps of normal flow.
 2. Customer modifies the party size of the reservation.
 3. New table is selected and old table is marked as available.
+
 ###### Cancellation
 1. First two steps of normal flow.
 2. Customer cancels reservation.
