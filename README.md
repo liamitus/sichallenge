@@ -1,7 +1,5 @@
-# SI Challenge
-## Restaurant reservation system prototype
----
-### Actors
+# SI Challenge - restaurant reservation system prototype
+## Actors
 * Customer
   - name
   - party
@@ -22,7 +20,7 @@
   - name
   - restaurant
 
-### Use cases
+## Use cases
 ###### Normal flow
 1. Customer make a reservation.
 2. Restaurant receives reservation and assigns table(s) based on party size.
@@ -40,7 +38,7 @@
 2. Customer cancels reservation.
 3. Table is marked as available.
 
-### Features
+## Features
 * Restaurant can add tables of given size.
 * Restaurant can remove tables of given size.
 * Customer can make a reservation.
@@ -50,11 +48,11 @@
 * Staff can see upcoming reservations.
 * Staff are notified at the time and date of each reservation.
 
-### Assumptions
+## Assumptions
 * Party will only be seated when whole party is present.
 * Some tables can be joined, e.g., two four-person tables can be combined to seat six people.
 
-### Desired metrics
+## Desired metrics
 * Profit per reservation/party/customer/table by different time periods.
 * Who are the regular customers.
 * Frequency of large parties by different time periods.
