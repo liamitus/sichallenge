@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)
@@ -15,7 +16,7 @@ class Restaurant(models.Model):
 
 class Table(models.Model):
     size = models.IntegerField(default=0)
-    joinable = models.BooleanField(initial=False)
+    joinable = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     def is_available(self, reservation):
@@ -36,6 +37,9 @@ class Table(models.Model):
 class Reservation(models.Model):
     date = models.DateTimeField('date and time')
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True)
+
+    def has_valid_date(self):
+        return self.date >= timezone.now()
 
     def __str__(self):
         s = '%s at %s for a party of %s' 
