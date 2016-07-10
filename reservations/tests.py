@@ -26,19 +26,6 @@ class ReservationTests(TransactionTestCase):
         self.assertEqual(self.contains_restaurants(response, restaurants), True)
 
 
-    def contains_restaurants(self, response, restaurants):
-        """
-        contains_restaurants() checks if the given response contains all of
-        the given restaurants by name.
-        """
-        json_string = response.content
-        data = json.loads(str(json_string, 'utf8'))
-        for r in restaurants:
-            if not any(d['name'] == r.name for d in data['restaurants']):
-                return False
-        return True
-
-
     def test_cannot_make_reservations_in_the_past(self):
         """
         make_reservation() should return an error if a reservation is made for
@@ -56,13 +43,18 @@ class ReservationTests(TransactionTestCase):
 
         self.assertEqual(response.status_code, 400)
 
-        # all_reservations = set(Reservation.objects.all())
-        # while all_reservations:
-            # r = all_reservations.pop()
-            # customers = r.party.customer_set()
-            # while customers:
-                # c = customers.pop()
-                # self.assertEqual(c, customer)
+
+    def contains_restaurants(self, response, restaurants):
+        """
+        contains_restaurants() checks if the given response contains all of
+        the given restaurants by name.
+        """
+        json_string = response.content
+        data = json.loads(str(json_string, 'utf8'))
+        for r in restaurants:
+            if not any(d['name'] == r.name for d in data['restaurants']):
+                return False
+        return True
 
 
     def mock_customer(self, name='Testy Tester'):
