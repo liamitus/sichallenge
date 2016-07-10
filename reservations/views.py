@@ -11,7 +11,7 @@ def index(request):
 
 
 def get_all_restaurants(request):
-   all_restaurants = Reservation.objects.all()
+   all_restaurants = Restaurant.objects.values()
    return JsonResponse(dict(restaurants=list(all_restaurants)))
 
 
