@@ -9,6 +9,12 @@ from reservations.models import *
 def index(request):
     return HttpResponse("Find a table nearby.")
 
+
+def get_all_restaurants(request):
+   all_restaurants = Reservation.objects.all()
+   return JsonResponse(dict(restaurants=list(all_restaurants)))
+
+
 def make_reservation(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
 
