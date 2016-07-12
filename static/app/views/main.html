@@ -1,0 +1,12 @@
+<div class="row restaurants-grid">
+    <div class="restaurant col-sm-4"
+            style="background-image: url('{{restaurant.image_url}}')"
+            ng-repeat="restaurant in restaurants"
+            data="{{restaurant.id}}"
+            ng-click="showReservationModal(restaurant.id)">
+        
+        <div class="restaurant-name">{{restaurant.name}}</div>
+        <div class="gradient-bg"></div>
+        
+    </div>
+</div>
