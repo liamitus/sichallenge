@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils import timezone
@@ -17,11 +18,15 @@ def get_all_restaurants(request):
 
 def make_reservation(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
-
+    
     try:
-        reservation_obj = Reservation(date=parse_datetime(request.POST['date']))
-        party = Party(size=request.POST['size'], reservation=reservation_obj)
-        customer = get_or_create_customer(request.POST['name'], party)
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        reservation_obj = Reservation(date=parse_datetime(body['date']))
+        reservation_obj.save()
+        party = Party(size=body['size'], reservation=reservation_obj)
+        party.save()
+        customer = get_or_create_customer(body['name'], party)
     except Exception as e:
         return error_response(e)
 
@@ -33,13 +38,12 @@ def make_reservation(request, restaurant_id):
         return error_response('no free tables for that time')
 
     reservation_obj.table = table
-    customer.party = party
-
     reservation_obj.save()
-    party.save()
+
+    customer.party = party
     customer.save()
 
-    return JsonResponse()
+    return JsonResponse({'success': 'true'})
 
 
 def get_or_create_customer(customer_name, party):

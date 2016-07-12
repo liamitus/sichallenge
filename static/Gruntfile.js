@@ -460,9 +460,16 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('quickly', [
-    'clean:server',
+    'clean:dist',
     'wiredep',
-    'postcss:server'
+    'useminPrepare',
+    'concurrent:dist',
+    'postcss',
+    'ngtemplates',
+    'concat',
+    'ngAnnotate',
+    'copy:dist',
+    'filerev'
   ]);
 
 

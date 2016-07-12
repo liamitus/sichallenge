@@ -9,10 +9,10 @@
  */
 angular
     .module('sichallengeApp')
-    .controller('ReservationCtrl', ['$resource', '$scope', '$uibModalInstance', 'restaurant',
-                function ($resource, $scope, $uibModalInstance, restaurant) {
+    .controller('ReservationCtrl', ['$filter', '$resource', '$scope', '$uibModalInstance', 'restaurant',
+                function ($filter, $resource, $scope, $uibModalInstance, restaurant) {
 
-    var Reservation = $resource('/restaurant/:restaurantId/reservation', {restaurantId:'@id'});
+    var Reservation = $resource('/restaurant/:restaurantId/reservation', {restaurantId: restaurant.id});
 
     $scope.reservation = { date: new Date() };
     $scope.restaurant = restaurant;
@@ -31,9 +31,10 @@ angular
     };
 
     $scope.makeReservation = function (time) {
-        console.log('making reservation for ' + time);
         var reservation = $scope.reservation;
-        reservation.date = reservation.date + ' ' + time;
+        var datetimeString = $filter('date')(reservation.date, 'yyyy-MM-dd') + 'T' + time;
+        // TODO don't use the Date constructor to parse date.
+        reservation.date = new Date(datetimeString);
         Reservation.save(reservation);
     };
 

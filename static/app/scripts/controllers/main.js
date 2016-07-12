@@ -13,7 +13,6 @@ angular
                 function ($filter, $scope, $resource, $uibModal) {
     
     var Restaurants = $resource('/restaurants');
-    var Reservation = $resource('/restaurant/:restaurantId/reservation', {restaurantId:'@id'});
 
     $scope.showReservationModal = function (restaurantId) {
         var restaurantObj = $filter('filter')($scope.restaurants, {id: restaurantId})[0];

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime, timedelta, time
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)
@@ -7,7 +8,7 @@ class Restaurant(models.Model):
 
     def get_free_table(self, reservation):
         for table in self.table_set.all():
-            if table.is_available(reservation):
+            if table.is_available(reservation) and table.can_seat(reservation):
                 return table
         return None
 
@@ -22,17 +23,30 @@ class Table(models.Model):
 
     def is_available(self, reservation):
         expected_meal_time_hours = 2
-        same_day_reservations = self.reservation_set.get(date__day=reservation.day)
-        if not same_day_reservations:
+
+        try:
+            same_day_reservations = self.reservation_set.get(date__day=reservation.date.day)
+        except Reservation.DoesNotExist:
+            same_day_reservations = None
+        if same_day_reservations is None:
             return True
-        for existing_reservation in same_day_reservations:
-            when_table_is_free = existing_reservation.date + timedelta(hours=expected_meal_time_hours)
-            if when_table_is_free < reservation.date and reservation.party.size <= self.size:
-                return True
+
+        when_table_is_free = same_day_reservations.date + timedelta(hours=expected_meal_time_hours)
+        if when_table_is_free < reservation.date:
+            return True
         return False
 
+    def can_seat(self, reservation):
+        return int(reservation.party.size) <= self.size
+
+        # for existing_reservation in same_day_reservations:
+            # when_table_is_free = existing_reservation.date + timedelta(hours=expected_meal_time_hours)
+            # if when_table_is_free < reservation.date and reservation.party.size <= self.size:
+                # return True
+        # return False
+
     def __str__(self):
-        return 'size of %d in %s' % (self.size, self.restaurant)
+        return '%d-person table in %s' % (self.size, self.restaurant)
 
 
 class Reservation(models.Model):
@@ -40,11 +54,16 @@ class Reservation(models.Model):
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True)
 
     def has_valid_date(self):
+        # print(self.date)
+        # return self.date >= datetime.datetime.now()
+        # Timezone aware version:
         return self.date >= timezone.now()
 
     def __str__(self):
-        s = '%s at %s for a party of %s' 
-        return s % (self.table, self.date, self.table.size)
+        s = '%s at %s' % (self.table, self.date)
+        if self.table:
+            s = '%s for a party of %s' % (s, self.table.size)
+        return s
 
 
 class Party(models.Model):
