@@ -1,6 +1,5 @@
 <div class="modal-content">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">{{restaurant.name}}</h4>
     </div>
     <div class="modal-body">
@@ -44,9 +43,11 @@
         </div>
 
         <div>
-            <button class="btn btn-default" ng-click="makeReservation('18:00:00')">6:00pm</button>
-            <button class="btn btn-default" ng-click="makeReservation('19:00:00')">7:00pm</button>
-            <button class="btn btn-default" ng-click="makeReservation('20:00:00')">8:00pm</button>
+            <button class="btn btn-primary" ng-click="makeReservation('17:00:00')">5:00pm</button>
+            <button class="btn btn-primary" ng-click="makeReservation('18:00:00')">6:00pm</button>
+            <button class="btn btn-primary" ng-click="makeReservation('19:00:00')">7:00pm</button>
+            <button class="btn btn-primary" ng-click="makeReservation('20:00:00')">8:00pm</button>
+            <button class="btn btn-primary" ng-click="makeReservation('21:00:00')">9:00pm</button>
         </div>
 
     </div> <!-- /.modal-body -->
