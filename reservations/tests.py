@@ -50,7 +50,7 @@ class ReservationTests(TransactionTestCase):
     def test_table_is_not_available_one_minute_before_previous(self):
         """
         is_available() should return False if the given reservation is for a
-        date equal to the previous reservation plus one minute less than the
+        date equal to the previous reservation minus one minute less than the
         expected meal time.
         """
         restaurant = self.mock_restaurant()
@@ -98,11 +98,8 @@ class ReservationTests(TransactionTestCase):
         get_all_restaurants() should return an array containing all restaurants.
         """
         restaurants = self.mock_restaurant_array()
-
         response = self.client.get(reverse('get_all_restaurants'))
-
         self.assertEqual(response.status_code, 200)
-
         self.assertEqual(self.contains_restaurants(response, restaurants), True)
 
 
@@ -113,14 +110,34 @@ class ReservationTests(TransactionTestCase):
         """
         restaurant = self.mock_restaurant()
         customer = self.mock_customer()
-
         url = '/restaurant/%d/reservation' % restaurant.pk
         response = self.client.post(url, {
             'date': timezone.now() - timedelta(days=1),
             'size': 4,
             'name': customer.name
         })
+        self.assertEqual(response.status_code, 400)
 
+
+    def test_cannot_make_multiple_reservations(self):
+        """
+        make_reservation() should return an error if a reservation is made for
+        a customer that already has a reservation.
+        """
+        restaurant = self.mock_restaurant()
+        customer = self.mock_customer()
+        url = '/restaurant/%d/reservation' % restaurant.pk
+        response = self.client.post(url, json.dumps({
+            'date': str(timezone.now() + timedelta(days=1)),
+            'size': 4,
+            'name': customer.name
+        }), content_type='text/json')
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(url, {
+            'date': timezone.now() + timedelta(days=2),
+            'size': 4,
+            'name': customer.name
+        }, content_type='text/json')
         self.assertEqual(response.status_code, 400)
 
 

@@ -50,9 +50,8 @@ class Table(models.Model):
         if not reservation:
             return False
 
-        day_before = reservation.date - timedelta(days=1)
         try:
-            same_day_reservations = self.reservation_set.get(date__day=day_before.day)
+            same_day_reservations = self.reservation_set.get(date__day=reservation.date.day)
         except Reservation.DoesNotExist:
             same_day_reservations = None
         if same_day_reservations is None:
@@ -108,6 +107,11 @@ class Party(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=200)
     party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
+
+    def get_existing_reservation(self):
+        if not self.party:
+            return None
+        return self.party.reservation
 
     def __str__(self):
         return self.name
