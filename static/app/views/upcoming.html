@@ -1,1 +1,17 @@
-<p>This is the upcoming view.</p>
+<div class="row restaurant-grid">
+    <div class="col-sm-6 restaurant-details"
+            ng-repeat="restaurant in restaurants">
+
+        <h2>{{restaurant.name}}</h2>
+        
+        <ul class="row upcoming-reservations-list">
+            <li class="col-sm-12 upcoming-reservation"
+                    ng-repeat="reservation in restaurant.reservations">
+                
+                {{reservation.date}} - {{reservation.name}} party of {{reservation.size}}
+                
+            </li><!-- /.upcoming-reservation -->
+        </ul><!-- /.reservations-list -->
+
+    </div><!-- /.restaurant -->
+</div><!-- /.restaurant-grid -->

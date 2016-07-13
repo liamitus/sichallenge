@@ -9,11 +9,9 @@
  */
 angular
     .module('sichallengeApp')
-    .controller('MainCtrl', ['$filter', '$scope', '$resource', '$uibModal',
-                function ($filter, $scope, $resource, $uibModal) {
+    .controller('MainCtrl', ['$filter', '$scope', '$uibModal', 'restaurantService',
+                function ($filter, $scope, $uibModal, restaurantService) {
     
-    var Restaurants = $resource('/restaurants');
-
     $scope.showReservationModal = function (restaurantId) {
         var restaurantObj = $filter('filter')($scope.restaurants, {id: restaurantId})[0];
 
@@ -35,7 +33,8 @@ angular
         });
     };
 
-    var restaurantData = Restaurants.get(function () {
-        $scope.restaurants = restaurantData.restaurants;
+    restaurantService.getAll().then(function (data) {
+        $scope.restaurants = data.restaurants;
     });
+
 }]);

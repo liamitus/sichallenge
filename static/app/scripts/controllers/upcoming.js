@@ -7,11 +7,13 @@
  * # UpcomingCtrl
  * Controller of the sichallengeApp
  */
-angular.module('sichallengeApp')
-  .controller('UpcomingCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+angular
+    .module('sichallengeApp')
+    .controller('UpcomingCtrl', ['$scope', 'restaurantService',
+            function ($scope, restaurantService) {
+
+    restaurantService.getAll().then(function (data) {
+        $scope.restaurants = data.restaurants;
+    });
+
+}]);
