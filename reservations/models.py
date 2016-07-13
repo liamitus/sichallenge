@@ -8,6 +8,12 @@ class Restaurant(models.Model):
     image_url = models.CharField(max_length=500, default='http://i.imgur.com/imPtltl.jpg')
 
     def get_free_table(self, reservation):
+        """
+        Receive a table which can accomodate the given reservation,
+        or None if no suitable table exists.
+        """
+        if not reservation:
+            return None
         for table in self.table_set.all():
             if table.is_available(reservation) and table.can_seat(reservation):
                 return table
@@ -34,20 +40,28 @@ class Table(models.Model):
     size = models.IntegerField(default=0)
     joinable = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    
+    EXPECTED_MEAL_TIME_HOURS = 2
 
     def is_available(self, reservation):
-        expected_meal_time_hours = 2
+        """
+        Check if the table will be available for the given reservation date.
+        """
+        if not reservation:
+            return False
 
+        day_before = reservation.date - timedelta(days=1)
         try:
-            same_day_reservations = self.reservation_set.get(date__day=reservation.date.day)
+            same_day_reservations = self.reservation_set.get(date__day=day_before.day)
         except Reservation.DoesNotExist:
             same_day_reservations = None
         if same_day_reservations is None:
             return True
 
-        when_table_is_free = same_day_reservations.date + timedelta(hours=expected_meal_time_hours)
+        when_table_is_free = same_day_reservations.date + timedelta(hours=self.EXPECTED_MEAL_TIME_HOURS)
         if when_table_is_free < reservation.date:
             return True
+
         return False
 
     def can_seat(self, reservation):
