@@ -13,11 +13,11 @@ angular
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     var resourceUrl = '/restaurant/:restaurantId/reservation';
-    var Reservation = $resource(resourceUrl, {restaurantId:'@id'});
+    var Reservation = $resource(resourceUrl, {restaurantId:'@restaurantId'});
     
     return { // Exports
         create: function (reservation) {
-            return Reservation.save(reservation);
+            return Reservation.save(reservation).$promise;
         }
     }
     

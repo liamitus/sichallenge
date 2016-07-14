@@ -10,8 +10,10 @@
  */
 angular
     .module('sichallengeApp')
-    .controller('ReservationCtrl', ['$filter', '$scope', '$uibModalInstance', 'reservationService', 'restaurant',
-                function ($filter, $scope, $uibModalInstance, reservationService, restaurant) {
+    .controller('ReservationCtrl', ['$filter', '$scope', '$uibModalInstance',
+                'Notification', 'reservationService', 'restaurant',
+                function ($filter, $scope, $uibModalInstance,
+                          Notification, reservationService, restaurant) {
 
     $scope.reservation = { date: new Date() };
     $scope.restaurant = restaurant;
@@ -35,9 +37,16 @@ angular
         var datetimeString = combineDateAndTime(reservation.date, time);
         // TODO don't use the Date constructor to parse date.
         reservation.date = new Date(datetimeString);
+        reservation.restaurantId = $scope.restaurant.id;
 
-        reservationService.create(reservation);
-        $uibModalInstance.close();
+        reservationService.create(reservation).then(function () {
+            $uibModalInstance.close();
+            Notification.success('Reservation made for ' + reservation.size + 
+                                 ' at ' + $scope.restaurant.name);
+        }, function (reason) {
+            Notification.error('Could not make reservation because ' + reason);
+        });
+
     };
 
     // Helper(s)
