@@ -5,23 +5,22 @@
  * @name sichallengeApp.controller:ReservationCtrl
  * @description
  * # ReservationCtrl
- * Controller of the sichallengeApp
+ * Controller of the sichallengeApp for the reservation form.
+ *
  */
 angular
     .module('sichallengeApp')
-    .controller('ReservationCtrl', ['$filter', '$resource', '$scope', '$uibModalInstance', 'restaurant',
-                function ($filter, $resource, $scope, $uibModalInstance, restaurant) {
-
-    var Reservation = $resource('/restaurant/:restaurantId/reservation', {restaurantId: restaurant.id});
+    .controller('ReservationCtrl', ['$filter', '$scope', '$uibModalInstance', 'reservationService', 'restaurant',
+                function ($filter, $scope, $uibModalInstance, reservationService, restaurant) {
 
     $scope.reservation = { date: new Date() };
     $scope.restaurant = restaurant;
 
+    // Date picker settings
     // These formats need adjusting but is not a priority for this POC.
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy'];
     $scope.format = $scope.formats[0];
     $scope.altInputFormats = ['M!/d!/yyyy'];
-
     $scope.datepicker = {
         opened: false
     };
@@ -31,11 +30,20 @@ angular
     };
 
     $scope.makeReservation = function (time) {
+        // TODO Form validation
         var reservation = $scope.reservation;
-        var datetimeString = $filter('date')(reservation.date, 'yyyy-MM-dd') + 'T' + time;
+        var datetimeString = combineDateAndTime(reservation.date, time);
         // TODO don't use the Date constructor to parse date.
         reservation.date = new Date(datetimeString);
-        Reservation.save(reservation);
+
+        reservationService.create(reservation);
+        $uibModalInstance.close();
     };
+
+    // Helper(s)
+
+    function combineDateAndTime(date, time) {
+        return $filter('date')(date, 'yyyy-MM-dd') + 'T' + time;
+    }
 
 }]);
