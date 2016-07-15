@@ -26,6 +26,8 @@
   - name
   - restaurant
 
+---
+
 ## Use cases
 ###### Normal flow
 1. Customer make a reservation.
@@ -44,6 +46,8 @@
 2. Customer cancels reservation.
 3. Table is marked as available.
 
+---
+
 ## Features
 * Restaurant can add tables of given size.
 * Restaurant can remove tables of given size.
@@ -54,14 +58,18 @@
 * Staff can see upcoming reservations.
 * Staff are notified at the time and date of each reservation.
 
+---
+
 > It's also useful to list any assumptions as we go.
 
 ## Assumptions
 * Party will only be seated when whole party is present.
 * Some tables can be joined, e.g., two four-person tables can be combined to seat six people.
 
+---
+
 > Our business goals should guide our choice of metrics.  
-> As a restaurant owner, we'd care about breaking down where our profit is coming from and if people enjoy our restaurants.
+> As a restaurant owner, we'd care about breaking down where our profits are coming from and if people enjoy our restaurants.
 
 > Ideally our payment system will be connected, so we can map profit earned to our system's actors.
 
@@ -73,6 +81,8 @@
 * Profit per table.
 * Who are the regular customers.
 * Frequency of large parties by day of week/hour of day.
+
+---
 
 > At this point I considered the best languages and frameworks:
 
@@ -96,6 +106,8 @@
 * AWS - Elastic Beanstalk & Route53
 * Yeoman for frontend scaffolding
 
+---
+
 ## API
 This is the current API:
 
@@ -109,6 +121,8 @@ The proposed API can be found here: https://docs.google.com/spreadsheets/d/1BxGy
 ## Deployment
 - AWS Elastic Beanstalk makes setting up and tearing down the entire infrastructure quick and painless (I found this guide to be the most helpful: https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/).
 - The domain name was registered through Route53 and pointed to the Elastic Beanstalk endpoint.
+
+---
 
 ## Things I would add but didn't because of time and/or priority:
  - Full test coverage.
