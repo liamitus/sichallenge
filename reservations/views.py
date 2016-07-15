@@ -34,7 +34,7 @@ def make_reservation(request, restaurant_id):
         customer = get_or_create_customer(body['name'])
         existing_reservation = customer.get_existing_reservation()
         if existing_reservation is not None:
-            return error_response('existing reservation')
+            return error_response('you already have an existing reservation')
         reservation_obj = Reservation(date=parse_datetime(body['date']))
         reservation_obj.save()
         party = Party(size=body['size'], reservation=reservation_obj)
