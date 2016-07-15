@@ -44,7 +44,7 @@ angular
             Notification.success('Reservation made for ' + reservation.size + 
                                  ' at ' + $scope.restaurant.name);
         }, function (reason) {
-            Notification.error('Could not make reservation because ' + reason);
+            Notification.error('Could not make reservation because ' + reason.data.error);
         });
 
     };
