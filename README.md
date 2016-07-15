@@ -82,6 +82,9 @@
 > Python won in the end because it is the most mature and gave me a good excuse to learn and practice Django.  
 > Plus Django offers a nice database aggregation API, which can be used to produce our desired metrics.
 
+> Django comes with sqlite out of the box, which was kept for development.
+> Postgres was the natural choice for the production database because of maturity, features, and it's supported out-of-the-box by both Django and AWS.
+
 > Angular1.x was chosen for the front end because it the current industry standard. Also considered were Aurelia (smaller community and ecosystem), React (no experience), vanilla/jquery (more boilerplate to write).
 
 > AWS was chosen for the infrastructure because it is the industry leader and because of familiarity.
@@ -89,6 +92,7 @@
 ## Stack
 * Python3.4/Django1.9
 * Angularjs1.4
+* PostgreSQL9.5
 * AWS - Elastic Beanstalk & Route53
 * Yeoman for frontend scaffolding
 
