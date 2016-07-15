@@ -107,6 +107,7 @@ The proposed API can be found here: https://docs.google.com/spreadsheets/d/1BxGy
 - The domain name was registered through Route53 and pointed to the Elastic Beanstalk endpoint.
 
 ## Things I would add but didn't because of time and/or priority:
+ - Full test coverage.
  - Sockets for live updates of upcoming reservations.
  - Nicer URLs.
  - Authentication.
