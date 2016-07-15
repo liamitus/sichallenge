@@ -107,8 +107,10 @@ The proposed API can be found here: https://docs.google.com/spreadsheets/d/1BxGy
 - The domain name was registered through Route53 and pointed to the Elastic Beanstalk endpoint.
 
 ## Things I would add but didn't because of time and/or priority:
-- Sockets for live updates of upcoming reservations.
+ - Sockets for live updates of upcoming reservations.
  - Nicer URLs.
  - Authentication.
  - Modifying existing reservations as a customer.
  - Marking reservations as complete or cancelled as an employee.
+ - Add open/close times to Restaurant and generate reservation time buttons (currently hardcoded).
+ - Hide or disable reservation time buttons that aren't available.
