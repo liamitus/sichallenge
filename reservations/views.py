@@ -8,7 +8,8 @@ from django.utils.dateparse import parse_datetime
 from reservations.models import *
 
 def index(request):
-    return redirect('/static/index.html', permanent=True)
+    return redirect('/static/index.html')
+    # return render_to_response('sichallenge/index.html')
 
 
 def get_all_restaurants(request):
