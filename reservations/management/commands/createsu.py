@@ -5,8 +5,13 @@ from django.contrib.auth.models import User
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        email = os.environ.get('ADMIN_EMAIL') if not None else 'admin@admin.com'
-        password = os.environ.get('ADMIN_PASSWORD') if not None else 'please_dont_hack'
+        name = os.environ.get('ADMIN_NAME')
+        email = os.environ.get('ADMIN_EMAIL')
+        password = os.environ.get('ADMIN_PASSWORD')
+
+        name = name if name else 'django_admin'
+        email = email if email else 'admin@admin.com'
+        password = password if password else 'please_dont_hack'
         
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', email, password)
+        if not User.objects.filter(username=name).exists():
+            User.objects.create_superuser(name, email, password)
