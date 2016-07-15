@@ -115,3 +115,5 @@ The proposed API can be found here: https://docs.google.com/spreadsheets/d/1BxGy
  - Marking reservations as complete or cancelled as an employee.
  - Add open/close times to Restaurant and generate reservation time buttons (currently hardcoded).
  - Hide or disable reservation time buttons that aren't available.
+ - Frontend unit tests
+ - E2E tests
