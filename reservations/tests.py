@@ -55,11 +55,13 @@ class ReservationTests(TransactionTestCase):
         """
         restaurant = self.mock_restaurant()
         table = restaurant.table_set.all()[0]
-        now = timezone.now()
+        now = timezone.make_aware(datetime(2016, 7, 14, 12, 0))
         first_reservation = self.mock_reservation(date=now, table=table)
         after_first_reservation = now + timedelta(hours=table.EXPECTED_MEAL_TIME_HOURS)
         almost_after_first_reservation = after_first_reservation - timedelta(minutes=1)
-        second_reservation = Reservation(date=after_first_reservation)
+        second_reservation = Reservation(date=almost_after_first_reservation)
+        print(first_reservation)
+        print(second_reservation)
         self.assertEqual(table.is_available(second_reservation), False)
 
 

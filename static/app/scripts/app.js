@@ -15,6 +15,7 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
+    'ui-notification',
     'ui.bootstrap'
   ])
   .config(function ($routeProvider, $locationProvider) {
